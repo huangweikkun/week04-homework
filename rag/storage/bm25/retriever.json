@@ -1,0 +1,8 @@
+{
+  "similarity_top_k": 3,
+  "verbose": false,
+  "corpus_weight_mask": null,
+  "skip_stemming": true,
+  "token_pattern": "(?u)[A-Za-z0-9_.]+|[\\u4e00-\\u9fff]",
+  "language": "en"
+}

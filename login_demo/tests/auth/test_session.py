@@ -1,6 +1,6 @@
 """login_demo 登录会话的单元测试。
 
-规则来源：docs/session-rules.md（登录会话 30 分钟、now == expires_at 视为已过期）。
+规则来源：docs/session-rules.md（登录会话 20 分钟、now == expires_at 视为已过期）。
 运行方式：python -m pytest tests/test_session.py -q
 """
 
@@ -25,8 +25,8 @@ def clean_token_store():
 
 
 class TestSessionRules:
-    def test_ttl_is_thirty_minutes(self):
-        assert SESSION_TTL_SECONDS == 30 * 60
+    def test_ttl_is_twenty_minutes(self):
+        assert SESSION_TTL_SECONDS == 20 * 60
 
     def test_valid_before_expiry(self):
         assert session.is_session_valid(BASE_NOW, BASE_NOW + 1) is True
@@ -39,7 +39,7 @@ class TestSessionRules:
         assert session.is_session_valid(BASE_NOW + 1, BASE_NOW) is False
 
     def test_refresh_extends_ttl(self):
-        assert session.refresh_expiry(BASE_NOW) == BASE_NOW + 30 * 60
+        assert session.refresh_expiry(BASE_NOW) == BASE_NOW + 20 * 60
 
     def test_refresh_uses_default_ttl_not_config(self, monkeypatch):
         # config.SESSION_TTL_MINUTES 只是运维覆盖位，不能影响默认有效期
@@ -47,8 +47,8 @@ class TestSessionRules:
         reloaded = importlib.reload(config)
         try:
             assert reloaded.SESSION_TTL_MINUTES == "5"
-            assert session.refresh_expiry(BASE_NOW) == BASE_NOW + 30 * 60
-            assert session.SESSION_TTL_SECONDS == 30 * 60
+            assert session.refresh_expiry(BASE_NOW) == BASE_NOW + 20 * 60
+            assert session.SESSION_TTL_SECONDS == 20 * 60
         finally:
             monkeypatch.delenv("SESSION_TTL_MINUTES", raising=False)
             importlib.reload(config)
@@ -113,9 +113,9 @@ class TestTouch:
 
     def test_touch_keeps_session_valid(self):
         token = auth.issue_token("alice", now=BASE_NOW)
-        later = BASE_NOW + 20 * 60
+        later = BASE_NOW + 10 * 60
         auth.touch(token, now=later)
-        assert auth.check(token, now=later + 20 * 60) is True
+        assert auth.check(token, now=later + 10 * 60) is True
 
     def test_touch_returns_none_for_unknown_token(self):
         assert auth.touch("nobody.0.abc.def", now=BASE_NOW) is None

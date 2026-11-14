@@ -34,6 +34,9 @@ build/
 # Logs
 *.log
 
+# Milvus Lite
+milvus/**/LOCK
+
 # Editors
 *.sublime-project
 *.sublime-workspace

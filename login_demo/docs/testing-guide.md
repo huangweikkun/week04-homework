@@ -16,7 +16,7 @@ updated: 2026-09-20
 ## 关键用例
 
 - `test_expire_boundary`：覆盖 `now == expires_at`，期望返回 `False`。
-- `test_refresh_extends_ttl`：覆盖续期后到期时间被推后 30 分钟。
+- `test_refresh_extends_ttl`：覆盖续期后到期时间被推后 20 分钟。
 - `test_logout_invalidates`：退出登录后，同一个会话令牌应判定为无效。
 
 ## 提交前检查

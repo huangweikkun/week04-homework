@@ -3,7 +3,7 @@
 本模块只负责"令牌是否仍然有效"的判断，不负责签发和存储。
 """
 
-SESSION_TTL_SECONDS = 30 * 60  # 登录会话有效期，单位秒
+SESSION_TTL_SECONDS = 20 * 60  # 登录会话有效期，单位秒
 
 
 def is_session_valid(now, expires_at):
